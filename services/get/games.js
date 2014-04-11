@@ -72,7 +72,7 @@ var list_screenshots = function(element) {
 
 var games = {
 
-	path: '/v2/portals/personal_juegos_android/lists/:tag/games?',
+	path: '/v2/portals/personal_juegos_android/lists/:tag/games-android?',
 	status: function(req, res) {
 		console.log("===>" + req.query['page']);
 		if (req.query['page'] * req.query['size'] > total_games) {
@@ -109,7 +109,7 @@ var games = {
 
 
 var game_detailed = {
-	path: '/v2/portals/personal_juegos_android/games/:id',
+	path: '/v2/portals/personal_juegos_android/games-android/:id',
 	status: function(req, res) {
 		if (req.params['id'] == undefined) {
 			res.json(404, {
@@ -166,7 +166,7 @@ var game_detailed = {
 };
 
 var game_related = {
-	path: '/v2/portals/personal_juegos_android/games/:gameId/related/games?',
+	path: '/v2/portals/personal_juegos_android/games-android/:gameId/related/games?',
 	collection: true,
 	size: function(params, query, data) {
 		console.log("----->>>>" + query.size);
@@ -198,7 +198,7 @@ var game_related = {
 };
 
 var my_games = {
-	path: '/v2/portals/personal_juegos_android/games/my-games?',
+	path: '/v2/portals/personal_juegos_android/games-android/my-games?',
 	status: function(req, res) {
 		console.log("===>" + req.query['page']);
 		if (req.query['page'] * req.query['size'] > my_total_games) {
