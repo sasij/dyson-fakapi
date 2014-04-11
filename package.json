@@ -1,0 +1,24 @@
+{
+    "name": "FakAPI",
+    "version": "1.0.0",
+    "description": "Fake gameshop API ",
+    "author": {
+        "name": "Juan José Sanchez Silos",
+        "email": "jjsanchez@genexies.net"
+    },
+    "main": "fakapi.js",
+    "scripts": {
+        "start": "node ./fakapi.js"
+    },
+    "dependencies": {
+        "dyson": "~0.2.2",
+        "dyson-generators": "~0.1",
+        "dyson-image": "~0.1",
+        "random-name" : "*",
+        "boganipsum" : "*"
+    },
+    "engines": {
+        "node": ">=0.8"
+    },
+    "license": "MIT"
+}
