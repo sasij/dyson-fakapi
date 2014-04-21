@@ -5,6 +5,7 @@ var random_name = require('random-name');
 var total_games = 20;
 var my_total_games = 10;
 var id_aux = 1;
+var offset = 0;
 
 var random_purchase = function() {
 	return ((Math.floor(Math.random() * 10) + 1) % 2) == 0 ? true : false;
@@ -75,11 +76,21 @@ var games = {
 	path: '/v2/portals/personal_juegos_android/lists/:tag/games-android?',
 	status: function(req, res) {
 		console.log("===>" + req.query['page']);
-		if (req.query['page'] * req.query['size'] > total_games) {
-			res.json(404, {
-				message: 'Number of games: ' + total_games,
-				error: 404
-			});
+
+		offset = 0;
+		var prev_page = req.query['page'] - 1;
+		var curr_page = req.query['page'];
+		var page_size = req.query['size'];
+
+		if (curr_page * page_size > total_games) {
+			if (prev_page * page_size > total_games) {
+				res.json(404, {
+					message: 'Number of games: ' + total_games,
+					error: 404
+				});
+			} else {
+				offset = total_games - (prev_page * page_size);
+			}
 		}
 	},
 	cache: true,
@@ -95,13 +106,21 @@ var games = {
 		},
 		header: generator.name,
 		result: function(params, query, data) {
-			return list_games(query.size);
+			if (offset == 0) {
+				return list_games(query.size);
+			} else {
+				return list_games(offset);
+			}
 		},
 		page: function(params, query, data) {
 			return parseInt(query.page) || 1;
 		},
 		size: function(params, query, data) {
-			return parseInt(query.size) || undefined;
+			if (offset == 0) {
+				return parseInt(query.size) || undefined;
+			} else {
+				return offset;
+			}
 		},
 		total: total_games
 	}
@@ -167,33 +186,33 @@ var game_detailed = {
 
 var game_related = {
 	path: '/v2/portals/personal_juegos_android/games-android/:gameId/related/games?',
-	collection: true,
-	size: function(params, query, data) {
-		console.log("----->>>>" + query.size);
-		return query.size;
-	},
+	status: games.status,
 	cache: true,
+	collection: true,
+	size: 1,
 	template: {
 		id: function() {
 			return id_aux++;
 		},
-		title: generator.name,
-		purchased: function() {
-			return ((Math.floor(Math.random() * 10) + 1) % 2) == 0 ? true : false;
-		},
-		rating: function() {
-			return parseFloat((Math.random() * (5.0 - 0.5) + 0.5).toFixed(1));
-		},
-		imageUrl: "http://lorempixel.com/g/200/200/",
-		price: {
-			value: function() {
-				return parseFloat((Math.random() * (11.99 - 0.99) + 0.99).toFixed(2));
-			},
-			currency: "ARG",
-			promoId: function() {
-				return parseInt(Math.random() * (1000) + 10);
+		header: generator.name,
+		result: function(params, query, data) {
+			if (offset == 0) {
+				return list_games(query.size);
+			} else {
+				return list_games(offset);
 			}
-		}
+		},
+		page: function(params, query, data) {
+			return parseInt(query.page) || 1;
+		},
+		size: function(params, query, data) {
+			if (offset == 0) {
+				return parseInt(query.size) || undefined;
+			} else {
+				return offset;
+			}
+		},
+		total: total_games
 	}
 };
 
@@ -201,17 +220,31 @@ var my_games = {
 	path: '/v2/portals/personal_juegos_android/games-android/my-games?',
 	status: function(req, res) {
 		console.log("===>" + req.query['page']);
-		if (req.query['page'] * req.query['size'] > my_total_games) {
-			res.json(404, {
-				message: 'Number of games: ' + my_total_games,
-				error: 404
-			});
+
+		offset = 0;
+		var prev_page = req.query['page'] - 1;
+		var curr_page = req.query['page'];
+		var page_size = req.query['size'];
+
+		if (curr_page * page_size > my_total_games) {
+			if (prev_page * page_size > my_total_games) {
+				res.json(404, {
+					message: 'Number of games: ' + my_total_games,
+					error: 404
+				});
+			} else {
+				offset = my_total_games - (prev_page * page_size);
+			}
 		}
 	},
 	cache: true,
 	collection: true,
 	size: function(params, query, data) {
-		return query.size;
+		if (offset == 0) {
+			return query.size;
+		} else {
+			return offset;
+		}
 	},
 	template: {
 		url: "https://dl.dropboxusercontent.com/u/3873933/UNOFriends.apk",
@@ -239,25 +272,19 @@ var my_games = {
 			return parseInt(query.page) || 1;
 		},
 		size: function(params, query, data) {
-			return parseInt(query.size) || undefined;
+			if (offset == 0) {
+				return parseInt(query.size) || undefined;
+			} else {
+				return offset;
+			}
 		},
 		total: my_total_games
 	}
 };
 
-
-
 var search = {
 	path: '/v2/portals/personal_juegos_android/search/?',
-	status: function(req, res) {
-		console.log("===>" + req.query['page']);
-		if (req.query['page'] * req.query['size'] > total_games) {
-			res.json(404, {
-				message: 'Number of games: ' + total_games,
-				error: 404
-			});
-		}
-	},
+	status: games.status,
 	cache: true,
 	collection: true,
 	size: 1,
@@ -266,13 +293,21 @@ var search = {
 			return id_aux++;
 		},
 		result: function(params, query, data) {
-			return list_games(query.size);
+			if (offset == 0) {
+				return list_games(query.size);
+			} else {
+				return list_games(offset);
+			}
 		},
 		page: function(params, query, data) {
 			return parseInt(query.page) || 1;
 		},
 		size: function(params, query, data) {
-			return parseInt(query.size) || undefined;
+			if (offset == 0) {
+				return parseInt(query.size) || undefined;
+			} else {
+				return offset;
+			}
 		},
 		total: total_games
 	}
