@@ -2,35 +2,14 @@
 var bogan = require('boganipsum');
 var generator = require('dyson-generators');
 var random_name = require('random-name');
+var functions = require('../functions');
+
 var total_games = 20;
 var my_total_games = 10;
 var id_aux = 1;
 var offset = 0;
 
-var random_purchase = function() {
-	return ((Math.floor(Math.random() * 10) + 1) % 2) == 0 ? true : false;
-};
-var random_rating = function() {
-	return parseFloat((Math.random() * (5.0 - 0.5) + 0.5).toFixed(1));
-};
-var random_price = function() {
-	return parseFloat((Math.random() * (11.99 - 0.99) + 0.99).toFixed(2));
-};
-
-var random_big_number = function() {
-	return parseInt(Math.random() * (15000) + 10000);
-};
-
-var random_number = function() {
-	return parseInt(Math.random() * (1000) + 10);
-};
-
-var random_status = function() {
-	return ((Math.floor(Math.random() * 10) + 1) % 2) == 0 ? 0 : 1;
-};
-
-var promoId_value = random_number();
-
+var promoId_value = functions.random_number();
 
 var list_games = function(element) {
 
@@ -41,13 +20,13 @@ var list_games = function(element) {
 		list.push({
 			"id": i,
 			"title": random_name(),
-			"purchased": random_purchase(),
-			"rating": random_rating(),
-			"imageUrl": "http://lorempixel.com/g/200/200/",
+			"purchased": functions.random_purchase(),
+			"rating": functions.random_rating(),
+			"imageUrl": "http://lorempixel.com/200/200/" + functions.type_image() + "/" + i,
 			"price": {
-				"value": random_price(),
+				"value": functions.random_price(),
 				"currency": "ARG",
-				"promoId": random_number()
+				"promoId": functions.random_number()
 			}
 		});
 	}
@@ -65,7 +44,7 @@ var list_screenshots = function(element) {
 		list.push({
 			"width": width,
 			"height": height,
-			"imageUrl": "http://lorempixel.com/" + width + "/" + height + "/"
+			"imageUrl": "http://lorempixel.com/" + width + "/" + height + "/" + functions.type_image() + "/" + i
 		});
 	}
 	return list;
@@ -143,25 +122,25 @@ var game_detailed = {
 		},
 		title: generator.name,
 		description: bogan(),
-		purchased: random_purchase(),
-		rating: random_rating(),
+		purchased: functions.random_purchase(),
+		rating: functions.random_rating(),
 		imageUrl: "http://lorempixel.com/200/200/",
 		price: {
-			value: random_price(),
+			value: functions.random_price(),
 			currency: "ARG",
 			promoId: promoId_value
 		},
-		hasSubscription: random_purchase(),
+		hasSubscription: functions.random_purchase(),
 		screenshots: list_screenshots(5),
 		provider: {
 			id: function() {
 				return id_aux++;
 			},
 			name: generator.name,
-			tag: random_big_number(),
+			tag: functions.random_big_number() + "",
 			subscription: {
 				id: promoId_value,
-				image: "http://lorempixel.com/200/200/",
+				image: "http://lorempixel.com/200/200/" + functions.type_image() + "/" + id_aux,
 				title: generator.name,
 				shortDescription: bogan({
 					paragraphs: 1,
@@ -174,18 +153,18 @@ var game_detailed = {
 					sentenceMax: 10
 				}),
 				price: {
-					value: random_price(),
+					value: functions.random_price(),
 					currency: "ARG",
 					promoId: promoId_value
 				},
-				status: random_status
+				status: functions.random_status()
 			}
 		}
 	}
 };
 
 var game_related = {
-	path: '/v2/portals/personal_juegos_android/games-android/:gameId/related/games?',
+	path: '/v2/portals/personal_juegos_android/games-android/:gameId/related/games-android?',
 	status: games.status,
 	cache: true,
 	collection: true,
@@ -217,7 +196,7 @@ var game_related = {
 };
 
 var my_games = {
-	path: '/v2/portals/personal_juegos_android/games-android/my-games?',
+	path: '/v2/portals/personal_juegos_android/games-android/purchases?',
 	status: function(req, res) {
 		console.log("===>" + req.query['page']);
 
@@ -254,10 +233,10 @@ var my_games = {
 		title: generator.name,
 		description: bogan(),
 		purchased: true,
-		rating: random_rating(),
+		rating: functions.random_rating(),
 		imageUrl: "http://lorempixel.com/200/200/",
 		price: {
-			value: random_price(),
+			value: functions.random_price(),
 			currency: "ARG",
 			promoId: function() {
 				return parseInt(Math.random() * (1000) + 10);

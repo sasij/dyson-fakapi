@@ -1,13 +1,10 @@
 //highlights
 
 var generator = require('dyson-generators');
+var functions = require('../functions');
 var id_aux = 0; //fake id
 var pages = 1;
 var number_of_highlights = 5;
-
-var random_number = function() {
-	return parseInt(Math.random() * (1000) + 10);
-};
 
 var list_highlights = function(dpi) {
 
@@ -30,8 +27,8 @@ var list_highlights = function(dpi) {
 
 	for (var i = 0; i < number_of_highlights; i++) {
 		list.push({
-			"image_name": "/"+widht+"/"+height+"/",
-			"section_uri": "android://games/"+random_number(),
+			"image_name": "/" + widht + "/" + height + "/" + functions.type_image() + "/",
+			"section_uri": "android://games/" + functions.random_number(),
 			"delay": 5000
 		});
 	}

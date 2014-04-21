@@ -2,6 +2,7 @@
 //categories
 
 var generator = require('dyson-generators');
+var functions = require('../functions');
 var id_aux = 0;//fake id
 var pages = 1;
 
@@ -9,10 +10,13 @@ var category = {
 	path:'/v2/portals/personal_juegos_android/category/:id?',
 	template:{
 		tag:function(params) {
+			console.log(functions.typeImage());
             return (params.id || id_aux++)+"";
         },
 		name: generator.name,
-		imageUrl: "http://lorempixel.com/200/200/"
+		imageUrl: function(){
+			return "http://lorempixel.com/200/200/sports/" + id_aux;
+		}
 	}
 };
 
@@ -25,7 +29,6 @@ var categories = {
 	},
 	template: category.template
 	// container: {
-		
 	// 	items: function(params, query, data) {
 	// 		return data;
 	// 	},
