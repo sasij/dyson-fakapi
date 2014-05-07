@@ -12,7 +12,7 @@ var provider = {
 			return (params.id || id_aux++);
 		},
 		name: generator.name,
-		image: "http://lorempixel.com/200/200/" + functions.type_image() + "/" + id_aux++,
+		image: "http://lorempixel.com/200/200/" + functions.type_image() + "/" + id_aux,
 		tag: function() {
 			return parseInt(Math.random() * (15000) + 10000) + "";
 		},
@@ -20,7 +20,9 @@ var provider = {
 			id: function() {
 				return id_aux++;
 			},
-			image: "http://lorempixel.com/200/200/" + functions.type_image() + "/" + id_aux++,
+			imageUrl: function() {
+				return "http://lorempixel.com/200/200/" + functions.type_image() + "/" + id_aux
+			},
 			title: generator.name,
 			shortDescription: bogan({
 				paragraphs: 1,
@@ -47,7 +49,7 @@ var provider = {
 };
 
 var providers = {
-	path: '/v2/portals/personal_juegos_android/providers',
+	path: '/v2/portals/personal_juegos_android/games_android/providers',
 	collection: true,
 	cache: true,
 	size: function() {

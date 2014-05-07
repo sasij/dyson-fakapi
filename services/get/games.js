@@ -8,7 +8,8 @@ var total_games = 20;
 var my_total_games = 10;
 var id_aux = 1;
 var offset = 0;
-
+var array_tags = [];
+var id_tag = 0;
 var promoId_value = functions.random_number();
 
 var list_games = function(element) {
@@ -76,12 +77,17 @@ var games = {
 	collection: true,
 	size: function(params, query, data) {
 		var tags = params.tag;
-		var array_tags = tags.split(";")
+		array_tags = tags.split(";")
 		return array_tags.length;
 	},
 	template: {
 		id: function() {
 			return id_aux++;
+		},
+		tag:function(){
+			var tag = array_tags[id_tag];
+			id_tag++;
+			return tag+"";
 		},
 		header: generator.name,
 		result: function(params, query, data) {
@@ -125,6 +131,7 @@ var game_detailed = {
 		purchased: functions.random_purchase(),
 		rating: functions.random_rating(),
 		imageUrl: "http://lorempixel.com/200/200/",
+		developer:generator.name,
 		price: {
 			value: functions.random_price(),
 			currency: "ARG",
@@ -262,7 +269,7 @@ var my_games = {
 };
 
 var search = {
-	path: '/v2/portals/personal_juegos_android/search/?',
+	path: '/v2/portals/personal_juegos_android/searches/games-android?',
 	status: games.status,
 	cache: true,
 	collection: true,

@@ -1,3 +1,9 @@
+//
+//
+//Module with auxiliar functions
+//
+//
+
 
 exports.random_purchase = function() {
 	return ((Math.floor(Math.random() * 10) + 1) % 2) == 0 ? true : false;

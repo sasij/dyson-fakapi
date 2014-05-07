@@ -55,7 +55,7 @@ var highlights_provider = {
 			var dpi = params.dpi;
 			return list_highlights(dpi);
 		},
-		imageUrlBase: "http://lorempixel.com"
+		image_url_base: "http://lorempixel.com"
 	}
 };
 

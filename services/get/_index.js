@@ -10,16 +10,17 @@ var index = {
 			'/v2/portals/personal_juegos_android/categories',
 			'/v2/portals/personal_juegos_android/sections',
 			'/v2/portals/personal_juegos_android/lists/2/games-android?page=1&size=3',
-			'/v2/portals/personal_juegos_android/lists/2;5;6/games-android?page=1&size=3',
+			'/v2/portals/personal_juegos_android/lists/27;5;6/games-android?page=1&size=3',
 			'/v2/portals/personal_juegos_android/games-android/3',
 			'/v2/portals/personal_juegos_android/games-android/3/related/games-android?size=2',
 			'/v2/portals/personal_juegos_android/games-android/purchases?token=2&page=1&size=3',
-			'/v2/portals/personal_juegos_android/providers',
+			'/v2/portals/personal_juegos_android/games_android/providers',
 			'/v2/portals/personal_juegos_android/highlights/mdpi',
 			'/v2/portals/personal_juegos_android/providers/5/highlights/hdpi',
 			'/v2/portals/personal_juegos_android/licenses/4',
 			'/v2/portals/personal_juegos_android/licenses',
-			'/v2/portals/personal_juegos_android/search?query=futbol&size=5&page=1'
+			'/v2/portals/personal_juegos_android/searches/games-android?query=futbol&size=5&page=1',
+			'/v2/portals/personal_juegos_android/legal/terms'
 		];
 
 		html += '<ul>' + examples.map(function(example) {

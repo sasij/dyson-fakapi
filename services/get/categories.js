@@ -1,27 +1,26 @@
-
 //categories
 
 var generator = require('dyson-generators');
 var functions = require('../functions');
-var id_aux = 0;//fake id
+var id_aux = 0; //fake id
 var pages = 1;
 
 var category = {
-	path:'/v2/portals/personal_juegos_android/category/:id?',
-	template:{
-		tag:function(params) {
-			console.log(functions.typeImage());
-            return (params.id || id_aux++)+"";
-        },
+	path: '/v2/portals/personal_juegos_android/category/:id?',
+	template: {
+		tag: function(params) {
+			console.log(functions.type_image());
+			return (params.id || id_aux++) + "";
+		},
 		name: generator.name,
-		imageUrl: function(){
+		imageUrl: function() {
 			return "http://lorempixel.com/200/200/sports/" + id_aux;
 		}
 	}
 };
 
 var categories = {
-	path:'/v2/portals/personal_juegos_android/categories',
+	path: '/v2/portals/personal_juegos_android/categories',
 	collection: true,
 	cache: true,
 	size: function() {
