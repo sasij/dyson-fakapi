@@ -20,7 +20,7 @@ var provider = {
 			id: function() {
 				return id_aux++;
 			},
-			imageUrl: function() {
+			image: function() {
 				return "http://lorempixel.com/200/200/" + functions.type_image() + "/" + id_aux
 			},
 			title: generator.name,
